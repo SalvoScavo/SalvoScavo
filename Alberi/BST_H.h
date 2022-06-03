@@ -24,14 +24,15 @@ class BST
             {
                 return root== nullptr;
             }
-
+            
+            //TEST
             void insert(T key)
             {
                     root = insert(root,key);
 
             }
 
-            //TEST 
+             
             BSTNode<T>* insert(BSTNode<T>* ptr, T key)
             {
 
@@ -48,7 +49,7 @@ class BST
                          ptr->right=insert(ptr->right,key);
                     }
 
-            }
+            }   //fine test
 
             void visit(BSTNode<T>* node)
             {

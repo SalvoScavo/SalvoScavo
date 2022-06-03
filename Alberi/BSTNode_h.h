@@ -1,5 +1,5 @@
-#ifndef BSTNode_h
-#define BSTNode_h
+#ifndef BSTNode_H
+#define BSTNode_H
 
 #include <iostream>
 using namespace std;
@@ -14,7 +14,7 @@ class BSTNode
              
              T key;
              BSTNode<T>* left;
-             BSTNode<T>* right
+             BSTNode<T>* right;
              template <typename U>   //siccome ancora lista non esiste non sa che List sarà una classe template
              friend class BST;   //ci sarà una clsse list (ancora non definito) che sarà friend di Node  
     public: 
@@ -55,13 +55,13 @@ class BSTNode
                 return this->right;
             }
 
-            friend ostream& operator<<(ostream& out, const Node<T> & node)
+            friend ostream& operator<<(ostream& out, const BSTNode<T> & node)
             {
-                out<<"BSTNode@"<<&node<<" key="<<*(node.key) <<"- left= "<<node.left<<" - right= "<<node.right;
+                out<<"BSTNode@"<<&node<<" key="<<(node.key) <<"- left= "<<node.left<<" - right= "<<node.right<<endl;
                 return out;
             }
 
-            /*DISTRUTTORE  DEPRECATED
+            /*DISTRUTTORE  
             ~BSTNode()
             {
                 delete left;

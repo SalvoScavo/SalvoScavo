@@ -1,2 +1,2 @@
-- 👋 Hi, I’m @SalvoScavo this repository contains notes of lessons
+- 👋 Hi, I’m @SalvoScavo
 

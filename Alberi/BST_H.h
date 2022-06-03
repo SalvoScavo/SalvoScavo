@@ -1,12 +1,14 @@
 #ifndef BST_H
 #define BST_H
 
-#include BSTNode_h
+#include "BSTNode_H.h"
 #include <iostream>
 using namespace std;
 
 template <typename T>
-
+/*
+    BST : Binary search tree
+*/
 class BST
 {
     private:    
@@ -25,31 +27,25 @@ class BST
 
             void insert(T key)
             {
-                if(this->isEmpty())
-                {
-                    root = new BSTNode<T>(key);
-                    return;
-                }
-
-                insert(root,key);
+                    root = insert(root,key);
 
             }
 
-
-            void insert(BSTNode<T>* ptr, T key)
+            //TEST 
+            BSTNode<T>* insert(BSTNode<T>* ptr, T key)
             {
-                //sistemare l'inserimento
+
+                
                     if(ptr==nullptr)
                     {
-                        ptr= new BSTNode<T>(key);   //dobbiamo metterer prt->left = ...
-                        return;
+                        return new BSTNode<T>(key);                      
                     }
                     if(key <= ptr->key)
                     {
-                        insert(ptr->left,key);
+                        ptr->left=insert(ptr->left,key);
                     }else 
                     {
-                         insert(ptr->right,key);
+                         ptr->right=insert(ptr->right,key);
                     }
 
             }

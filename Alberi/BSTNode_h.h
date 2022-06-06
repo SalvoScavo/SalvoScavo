@@ -30,6 +30,7 @@ class BSTNode
             void setParent(BSTNode<T>* par)
             {
                 this->parent=par;
+                
             }
 
             BSTNode<T>* getParent() const

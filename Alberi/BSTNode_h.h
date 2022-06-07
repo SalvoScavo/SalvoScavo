@@ -30,7 +30,6 @@ class BSTNode
             void setParent(BSTNode<T>* par)
             {
                 this->parent=par;
-                
             }
 
             BSTNode<T>* getParent() const
@@ -71,7 +70,37 @@ class BSTNode
 
             friend ostream& operator<<(ostream& out, const BSTNode<T> & node)
             {
-                out<<"BSTNode@"<<&node<<" key="<<(node.key)<<"- parent= "<<node.parent <<"- left= "<<node.left<<" - right= "<<node.right<<endl;
+                out<<"Key="<<node.key;
+                 out <<"- parent= ";
+                if(node.parent)
+                {
+                   out<<(node.parent)->key;
+                }  else
+                {
+                       out<<"NULL"; 
+                }
+                 out<<"- left= ";
+                if(node.left)
+                {
+                    out<<(node.left)->key;
+                }else
+                {
+                    out<<"NULL";
+                }
+
+                out<<"- right= ";
+                if(node.right)
+                {
+                    out<<(node.right)->key;
+                }else
+                {
+                    out<<"NULL";
+                }
+
+                out<<endl;
+                    
+                  //   " - right= "<<*node.right<<endl;
+              //  out<<"BSTNode@"<<&node<<" key="<<(node.key)<<"- parent= "<<node.parent <<"- left= "<<node.left<<" - right= "<<node.right<<endl;
                 return out;
             }
 

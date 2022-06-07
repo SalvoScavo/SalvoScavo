@@ -1,117 +1,267 @@
-#ifndef BSTNode_H
-#define BSTNode_H
+#ifndef BST_H
+#define BST_H
 
+#include "BSTNode_h.h"
 #include <iostream>
 using namespace std;
 
-
-
 template <typename T>
-class BSTNode
-{  
-    
-    private:
-             
-             T key;
-             BSTNode<T>* left;
-             BSTNode<T>* right;
-             BSTNode<T>* parent;
-             template <typename U>   //siccome ancora lista non esiste non sa che List sarà una classe template
-             friend class BST;   //ci sarà una clsse list (ancora non definito) che sarà friend di Node  
-    public: 
-            BSTNode(T key):key(key)
+/*
+    BST : Binary search tree
+*/
+class BST
+{
+    private:    
+             BSTNode<T>* root;    
+    public:
+
+            BST()
             {
-                left= nullptr;
-                right= nullptr;
-                parent= nullptr;
+                root=nullptr;             
             }
 
-
-            void setParent(BSTNode<T>* par)
+            bool isEmpty()
             {
-                this->parent=par;
+                return root== nullptr;
             }
 
-            BSTNode<T>* getParent() const
-            {
-                return this->parent;
-            }
-
-            void setLeft(BSTNode<T>* lf)
-            {
-                this->left=left;
-            }
-
-            void setRight(BSTNode<T>*rg)
-            {
-                this->right=right;
-            }
-
-
-            T getKey() const
-            {
-                return key;
-            }
-
-            void setKey(T key)
-            {
-                this->key=key;
-            }
             
-            BSTNode<T>* getLeft() const
+            BSTNode<T>* getRoot()const
             {
-                return this->left;
+                return this->root;
             }
 
-            BSTNode<T>* getRight() const
+
+            //Soluzione professore
+            void insert(T key)
             {
-                return this->right;
+                if(this->isEmpty() )
+                {
+                    root=new BSTNode<T>(key);
+                    return;
+                }
+                insert(root,key);
             }
 
-            friend ostream& operator<<(ostream& out, const BSTNode<T> & node)
+             
+            void insert(BSTNode<T>* ptr, T key)
             {
-                out<<"Key="<<node.key;
-                 out <<"- parent= ";
-                if(node.parent)
-                {
-                   out<<(node.parent)->key;
-                }  else
-                {
-                       out<<"NULL"; 
-                }
-                 out<<"- left= ";
-                if(node.left)
-                {
-                    out<<(node.left)->key;
-                }else
-                {
-                    out<<"NULL";
-                }
+    
+                    if(ptr->right==nullptr && key>ptr->key)
+                    {
+                        ptr->right = new BSTNode<T>(key);
+                        ptr->right->setParent(ptr);
+                        return;              
+                    }
 
-                out<<"- right= ";
-                if(node.right)
-                {
-                    out<<(node.right)->key;
-                }else
-                {
-                    out<<"NULL";
-                }
+                    if(ptr->left == nullptr && key <= ptr->key)
+                    {
+                        ptr->left = new BSTNode<T>(key);
+                        ptr->left->setParent(ptr);
+                        return;
+                    }
 
-                out<<endl;
-                    
-                  //   " - right= "<<*node.right<<endl;
-              //  out<<"BSTNode@"<<&node<<" key="<<(node.key)<<"- parent= "<<node.parent <<"- left= "<<node.left<<" - right= "<<node.right<<endl;
-                return out;
+                    if(key <= ptr->key)
+                    {
+                        insert(ptr->left,key);
+                    }else 
+                    {
+                        insert(ptr->right,key);
+                    }
+
+            }   
+
+            void visit(BSTNode<T>* node)
+            {
+                cout<<*node;
             }
 
-            /*DISTRUTTORE  
-            ~BSTNode()
+            void visitInorder(BSTNode<T>*ptr)
             {
-                delete left;
-                delete right;
-            }*/
+                if(ptr==nullptr)  return;
+
+                visitInorder(ptr->left);
+                visit(ptr);
+                visitInorder(ptr->right);
+            }
+
+            void visitPostOrder(BSTNode<T>* ptr)
+            {
+                if(ptr==nullptr) return;
+                visitPostOrder(ptr->left);
+                visitPostOrder(ptr->right);
+                visit(ptr);
+            }
+
+            void visitPreOrder(BSTNode<T>* ptr)
+            {
+                if(ptr== nullptr) return;
+                
+                visit(ptr);
+                visitPreOrder(ptr->left);
+                visitPreOrder(ptr->right);
+            }
+
+            void print(string v)
+            {
+                if(v == "Order")
+                {
+                     visitInorder(root);
+                    return;
+                }
+
+                if(v == "Post")
+                {
+                    visitPostOrder(root);
+                    return;
+                }
+                if(v == "Pre")
+                {
+                    visitPreOrder(root);
+                    return;
+                }
+                   
+            }
+
+
+
+            BSTNode<T>* search(T key)
+            {
+                return search(root,key);
+            }
+
+            BSTNode<T>* search(BSTNode<T>* ptr,T key)
+            {
+                if(ptr== nullptr)  return nullptr;
+
+                if(ptr->key == key )
+                    return ptr;
+                
+
+                if(key < ptr->key)
+                    return search(ptr->left, key);
+
+                if( key > ptr->key)
+                     return search(ptr->right,key);
+                
+                return nullptr;
+
+            }
+
+
+            BSTNode<T>* findMax()
+            {
+                return findMax(root);
+            }
+
+            BSTNode<T>* findMax(BSTNode<T>* from)
+            {
+                
+                if(this->isEmpty())
+                {
+                    cout<<"Empty list! return null";
+                    return nullptr;
+                }
+
+
+                BSTNode<T>* ptr= from;
+                while(ptr->right !=nullptr)
+                {
+                    ptr= ptr->right;
+                }
+
+                return ptr;
+            
+            
+            
+            }
+
+
+            BSTNode<T>* findMin()
+            {
+                return findMin(root);
+            }
+
+            BSTNode<T>* findMin(BSTNode<T>* from)
+            {
+                if(this->isEmpty())
+                {
+                    cout<<"Empty list! return null";
+                    return nullptr;
+                }
+
+
+                BSTNode<T>* ptr= from;
+                while(ptr->left !=nullptr )
+                {
+                    ptr= ptr->left;
+                }
+
+                return ptr;
+
+            }
+
+            BSTNode<T>* successor(BSTNode<T>* x)
+            {
+                if(this->isEmpty())
+                {
+                    return nullptr;
+                }
+
+                //caso 1 (esiste un sottoalbero)
+                if(x->right)
+                {
+                    return this->findMin(x->right);
+                }
+
+                //caso 2
+
+                BSTNode<T>* y = x->parent;
+
+                while(x!= nullptr && x==y->right)
+                {
+                    x=y;
+                    y=y->parent;
+                }
+
+                return y;
+            }
+
+
+            BSTNode<T>* predecessor(BSTNode<T>* x)
+            {
+                if(this->isEmpty())
+                {
+                    return nullptr;
+                }
+
+                if(x->left)
+                {
+                    return this->findMax(x->left);
+                }
+
+
+                 BSTNode<T>* y = x->parent;
+
+                while(x!= nullptr && x==y->left)
+                {
+                    x=y;
+                    y=y->parent;
+                }
+
+                return y;
+
+                
+            }
+
 
 };
-    
 
+/*Dato un nodo x il suo successore è :
+    se esiste un sottoalbero destro  -> il minimo di esso
+    se non esiste il sottoalbero destro -> l'antenato più prossimo di x il cui figlio sinitro è anche antenato di x
+                                            in pratica risalgo l'albero finche il parent non è un figlio sinistro
+
+Per il predecessore è l'opposto
+*/
 #endif
